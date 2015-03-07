@@ -1,9 +1,6 @@
 [submodule "toxcore"]
 	path = toxcore
 	url = ./toxcore/
-[submodule "uTox"]
-	path = uTox
-	url = https://github.com/notsecure/uTox.git
 [submodule "qTox"]
 	path = qTox
-	url = git@github.com:tux3/qTox.git
+	url = git@github.com:denis4net/qTox.git
