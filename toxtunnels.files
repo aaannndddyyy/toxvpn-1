@@ -173,3 +173,6 @@ toxcore/toxencryptsave/toxencryptsave.c
 toxcore/toxencryptsave/toxencryptsave.h
 toxcore/config.h
 toxcore/toxcore/toxvpn_internal.h
+toxcore/toxcore/toxvpn_interface.c
+toxcore/toxcore/toxvpn_interface.h
+toxcore/auto_tests/toxvpn_test.c
