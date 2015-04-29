@@ -176,3 +176,4 @@ toxcore/toxcore/toxvpn_internal.h
 toxcore/toxcore/toxvpn_interface.c
 toxcore/toxcore/toxvpn_interface.h
 toxcore/auto_tests/toxvpn_test.c
+toxcore/toxcore/connectivity_helperrs.h

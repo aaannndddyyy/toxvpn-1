@@ -4,3 +4,6 @@
 [submodule "qTox"]
 	path = qTox
 	url = git@github.com:denis4net/qTox.git
+[submodule "PyTox"]
+	path = PyTox
+	url = https://github.com/aitjcize/PyTox.git
