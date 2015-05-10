@@ -8,8 +8,10 @@ stub:
 	echo "stub"
 
 toxcore:
+	rm -rf install
+	mkdir -p install
 	make -C toxcore
-#	make -C toxcore install
+	make -C toxcore install
 
 qtox-run:
 	build-*/qtox
@@ -18,23 +20,18 @@ qtox-debug:
 	gdb build-*/qtox
 
 qtox-grant:
-	sudo setcap cap_net_admin+ep build-*/qtox
-
-qtox: toxcore
-	cd qTox; qmake qtox-static.pro; make -j8
+	sudo setcap cap_net_admin+ep build*/qtox
 
 toxcore-configure:
-	echo "This step is not needed now"
-#	cd toxcore; ./autogen.sh; mkdir -p $(INSTALL_DIR); ./configure --prefix $(shell pwd)/$(INSTALL_DIR)
+	cd toxcore; ./autogen.sh; mkdir -p $(INSTALL_DIR); ./configure CFLAGS="-g -DDEBUG" --prefix $(shell pwd)/$(INSTALL_DIR)
 
-toxcore-test:
-	cd toxcore/build; $(MAKE) toxvpn_test; sudo setcap cap_net_admin+ep $(shell pwd)/toxcore/build/.libs/toxvpn_test
-	cd toxcore/build/.libs/; ./toxvpn_test
+qtox-configure:
+	mkdir -p qTox-build
+	cd qTox-build && qmake ../qTox/qtox.pro "INCLUDEPATH += $(PWD)/install/usr/local/include" "LIBS += -L$(PWD)/install/usr/local/lib" "STATICPKG=YES" 
 
-configure-qtox:
-	cd qTox; qmake qtox.pro "LIBS += -L$(PWD)/install/usr/local/lib -Bstatic -ltoxcore" "INCLUDEPATH += $(PWD)/install/usr/local/include" ENABLE_SYSTRAY_UNITY_BACKEND=NO
-
-
+qtox:
+	cd qTox-build && make -j8
+	
 clean:
 	make -C toxcore distclean
 	rm -rf isntall/*	
