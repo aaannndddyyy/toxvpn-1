@@ -1,9 +1,0 @@
-toxcore
-toxcore/auto_tests
-toxcore/testing
-toxcore/toxav
-toxcore/toxcore
-toxcore/toxdns
-toxcore/toxencryptsave
-toxcore/toxencryptsave/crypto_pwhash_scryptsalsa208sha256
-toxcore/toxvpn

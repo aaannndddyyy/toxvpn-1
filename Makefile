@@ -1,11 +1,11 @@
-INSTALL_DIR := install/usr/local
+BUILD_DIR := /tmp/diplom
+INSTALL_DIR := $(BUILD_DIR)/install/usr/local
+PWD := $(shell pwd)
 
 .PHONY: toxcore
 
 all: toxcore
 
-stub:
-	echo "stub"
 
 toxcore:
 	rm -rf install
@@ -13,25 +13,29 @@ toxcore:
 	make -C toxcore
 	make -C toxcore install
 
+build-dir: 
+	mkdir -p $(BUILD_DIR)
+
 qtox-run:
-	build-*/qtox
+	$(BUILD_DIR)/build-*/qtox
 
 qtox-debug:
-	gdb build-*/qtox
+	gdb $(BUILD_DIR)/build-*/qtox
 
 qtox-grant:
-	sudo setcap cap_net_admin+ep build*/qtox
+	sudo setcap cap_net_admin+ep $(BUILD_DIR)/build-*/qtox
 
 toxcore-configure:
-	cd toxcore; ./autogen.sh; mkdir -p $(INSTALL_DIR); ./configure CFLAGS="-g -DDEBUG" --prefix $(shell pwd)/$(INSTALL_DIR)
+	mkdir -p $(INSTALL_DIR)
+	cd toxcore; ./autogen.sh; mkdir -p $(INSTALL_DIR); ./configure CFLAGS="-g -DDEBUG=1" --prefix $(INSTALL_DIR)
 
 qtox-configure:
-	mkdir -p qTox-build
-	cd qTox-build && qmake ../qTox/qtox.pro "INCLUDEPATH += $(PWD)/install/usr/local/include" "LIBS += -L$(PWD)/install/usr/local/lib" "STATICPKG=YES" 
+	mkdir -p $(BUILD_DIR)/qTox-build
+	cd $(BUILD_DIR)/qTox-build && qmake $(PWD)/qTox/qtox.pro "INCLUDEPATH += $(INSTALL_DIR)/include" "LIBS += -L$(INSTALL_DIR)/lib" "STATICPKG=YES" 
 
 qtox:
-	cd qTox-build && make -j8
+	cd $(BUILD_DIR)/qTox-build && make -j8
 	
 clean:
 	make -C toxcore distclean
-	rm -rf isntall/*	
+	rm -rf $(BUILD_DIR)/install/*	
